@@ -1,35 +1,36 @@
 {
-    "parser": "@typescript-eslint/parser", //typscript 파싱을위한 parser
-    "root": true, //현재 eslintrc 파일을 기준으로 규칙을 적용.
-    "extends": [ // 추가적인 규칙들 적용
-      "plugin:prettier/recommended", //prettier 의 포매팅 기능을 eslint 에 추가. 
-      "plugin:react/recommended", // eslint react 규칙.
-      "plugin:@typescript-eslint/recommended", //eslint typescript 규칙.
-      "prettier/@typescript-eslint" //prettier 규칙과 충돌하는 @typescript-eslint/eslint-plugin 규칙 비활성화
-    ],
-    "plugins": ["prettier", "prefer-arrow"], //prettier 플러그인 추가
-    "parserOptions": { //파싱 옵션
-      "ecmaVersion": 2018, 
-      "sourceType": "module",
-      "ecmaFeatures": { //사용하려는 추가 언어 jsx
-        "jsx": true
+  "parser": "@typescript-eslint/parser", //typscript 파싱을위한 parser
+  "root": true, //현재 eslintrc 파일을 기준으로 규칙을 적용.
+  "extends": [ // 추가적인 규칙들 적용
+    "plugin:prettier/recommended", //prettier 의 포매팅 기능을 eslint 에 추가. 
+    "plugin:react/recommended", // eslint react 규칙.
+    "plugin:@typescript-eslint/recommended", //eslint typescript 규칙.
+    "prettier/@typescript-eslint" //prettier 규칙과 충돌하는 @typescript-eslint/eslint-plugin 규칙 비활성화
+  ],
+  "plugins": ["prettier", "prefer-arrow"], //prettier 플러그인 추가
+  "parserOptions": { //파싱 옵션
+    "ecmaVersion": 2018, 
+    "sourceType": "module",
+    "ecmaFeatures": { //사용하려는 추가 언어 jsx
+      "jsx": true
+    }
+  },
+  "rules": {
+    "@typescript-eslint/no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }], //선언은 되엇지만 사용하지않은 함수, import 에 대해 에러표출
+    "prefer-arrow/prefer-arrow-functions": [
+      "error",
+      {
+        "disallowPrototype": true,
+        "singleReturnOnly": false,
+        "classPropertiesAllowed": false
       }
-    },
-    "rules": {
-      "@typescript-eslint/no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }], //선언은 되엇지만 사용하지않은 함수, import 에 대해 에러표출
-      "prefer-arrow/prefer-arrow-functions": [
-        "error",
-        {
-          "disallowPrototype": true,
-          "singleReturnOnly": false,
-          "classPropertiesAllowed": false
-        }
-      ], // arrow function 만 허용
-      "prettier/prettier": "error" //포매팅 에러 표충
-    },
-    "settings": {
-      "react": {
-        "version": "detect" // 프로젝트 react 버저닝 확인
-      }
+    ], // arrow function 만 허용
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "prettier/prettier": "error" //포매팅 에러 표충
+  },
+  "settings": {
+    "react": {
+      "version": "detect" // 프로젝트 react 버저닝 확인
     }
   }
+}
