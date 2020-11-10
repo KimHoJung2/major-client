@@ -1,23 +1,20 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from 'axios';
-
-export const extractErrorMsg = (error: AxiosError) => {
-  if (!error.response) {
-    return '서버에 접속할 수 없습니다';
-  } else {
-    return error.response.data.error.message || '에러 발생';
-  }
-};
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 class AxiosInstanceCreator {
-  #instans: AxiosInstance;
+  //axios 객체 생성
+  #instance: AxiosInstance;
 
+  //초기화
   constructor(config?: AxiosRequestConfig) {
-    this.#instans = axios.create(config);
-    console.log(this.#instans);
+    config = {
+      baseURL: process.env.REACT_APP_API_URL
+    };
+    this.#instance = axios.create(config);
   }
 
+  //외부 호출 객체
   create() {
-    return this.#instans;
+    return this.#instance;
   }
 }
 
