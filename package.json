@@ -13,13 +13,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "lint:fix": "eslint --fix src/*"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "lint:fix": "eslint --fix src"
   },
   "lint-staged": {
     "src/*": [

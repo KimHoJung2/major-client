@@ -16,7 +16,7 @@
     }
   },
   "rules": {
-    "@typescript-eslint/no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }], //선언은 되엇지만 사용하지않은 함수, import 에 대해 에러표출
+    "@typescript-eslint/no-unused-vars": 2, //선언은 되엇지만 사용하지않은 함수, import 에 대해 에러표출
     "prefer-arrow/prefer-arrow-functions": [
       "error",
       {
@@ -28,6 +28,7 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "prettier/prettier": "error" //포매팅 에러 표충
   },
+  "ignorePatterns": ["node_modules/"],
   "settings": {
     "react": {
       "version": "detect" // 프로젝트 react 버저닝 확인

@@ -9,7 +9,7 @@ export const extractErrorMsg = (error: AxiosError) => {
 };
 
 class AxiosInstanceCreator {
-  #instans: AxiosInstances;
+  #instans: AxiosInstance;
 
   constructor(config?: AxiosRequestConfig) {
     this.#instans = axios.create(config);
@@ -17,7 +17,7 @@ class AxiosInstanceCreator {
   }
 
   create() {
-    return this.#instance;
+    return this.#instans;
   }
 }
 

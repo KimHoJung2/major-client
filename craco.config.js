@@ -17,9 +17,9 @@ module.exports = {
       plugin: require('craco-antd'),
       options: {
         customizeTheme: {
-          '@primary-color': '#00bdb7',
-        },
-      },
-    },
-  ],
+          '@primary-color': '#00bdb7'
+        }
+      }
+    }
+  ]
 };
