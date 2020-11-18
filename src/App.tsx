@@ -1,22 +1,22 @@
 import React from 'react';
 
+//packages
+import styled from 'styled-components';
+import { Route, Switch } from 'react-router';
+
+//components
+import { NotFoundResult } from 'components/NotFound/NotFoundResult';
 const App = () => {
+  const StyledApp = styled.div`
+    height: 100vh;
+  `;
+
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className='App-link'
-          href='https://reactjs.org'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <StyledApp>
+      <Switch>
+        <Route path='*' component={NotFoundResult} />
+      </Switch>
+    </StyledApp>
   );
 };
 
