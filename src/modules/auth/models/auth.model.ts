@@ -3,6 +3,10 @@ export interface LoginUser {
   password: string;
 }
 
+export interface ResponseUserInfo {
+  access_token: string;
+}
+
 export interface SignUpUser {
   email: string;
   password: string;
