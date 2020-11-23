@@ -3,8 +3,18 @@ export interface LoginUser {
   password: string;
 }
 
-export interface ResponseUserInfo {
+export interface ResponseTokenInfo {
   access_token: string;
+}
+
+export interface ResponseUserInfo {
+  email: string;
+  username: string;
+  userType?: string;
+  joinDate?: string;
+  mPoint: number;
+  sex: string;
+  created?: Date;
 }
 
 export interface SignUpUser {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 //packages
 import styled from 'styled-components';
@@ -8,8 +8,9 @@ import { Route, Switch } from 'react-router';
 import { NotFoundResult } from 'components';
 import { LoginPage, SignUpPage } from 'pages';
 import { routes } from 'routes';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { StoreState } from 'modules';
+import { checkAuthencationAction } from 'modules/auth';
 
 const StyledApp = styled.div`
   height: 100vh;
@@ -17,7 +18,13 @@ const StyledApp = styled.div`
 
 const App = () => {
   const { isLogin } = useSelector((state: StoreState) => state.authState);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (isLogin === undefined) {
+      dispatch(checkAuthencationAction.request());
+    }
+  }, [isLogin, dispatch]);
   return (
     <StyledApp>
       <Switch>

@@ -2,13 +2,8 @@
 import { AxiosError } from 'axios';
 import AxiosInstanceCreator from 'services/api';
 import { cookieStorage, COOKIE_ACCESS_TOKEN } from 'services/cookie';
-import {
-  LoginUser,
-  ResponseTokenInfo,
-  ResponseUserInfo
-} from '../models/auth.model';
 
-const authInstance = new AxiosInstanceCreator().create();
+const boardInstance = new AxiosInstanceCreator().create();
 
 const orElseThrow = (error: AxiosError) => {
   if (
@@ -21,7 +16,7 @@ const orElseThrow = (error: AxiosError) => {
   throw error;
 };
 
-authInstance.interceptors.request.use(config => {
+boardInstance.interceptors.request.use(config => {
   if (!config.headers['access-token']) {
     const token = cookieStorage.getCookie(COOKIE_ACCESS_TOKEN);
 
@@ -35,20 +30,10 @@ authInstance.interceptors.request.use(config => {
   return config;
 });
 
-export const authAPI = {
-  usersLogin: (data: LoginUser) =>
-    authInstance
-      .post<ResponseTokenInfo>('/user/login', data)
+export const scoreBoardAPI = {
+  getScoreBoardList: (skip: number) =>
+    boardInstance
+      .get('/scoreBoard?', { params: { skip: skip } })
       .then(res => res.data)
-      .catch(err => err),
-
-  usersLogout: () => authInstance.post<void>('/users/logout'),
-
-  getUsersProfile: () =>
-    authInstance
-      .get<ResponseUserInfo>(`/user/profile`)
-      .then(res => res.data)
-      .catch(err => {
-        orElseThrow(err);
-      })
+      .catch(err => orElseThrow(err))
 };
