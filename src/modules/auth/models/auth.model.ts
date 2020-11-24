@@ -10,7 +10,7 @@ export interface ResponseTokenInfo {
 export interface ResponseUserInfo {
   email: string;
   username: string;
-  userType?: string;
+  usertype?: string;
   joinDate?: string;
   mPoint: number;
   sex: string;

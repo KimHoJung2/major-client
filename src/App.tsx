@@ -36,7 +36,7 @@ const App = () => {
               <Route key={index} path={item.path} component={item.component} />
             );
           })}
-        <Route path='*' component={NotFoundResult} />
+        {isLogin === false && <Route path='*' component={NotFoundResult} />}
       </Switch>
     </StyledApp>
   );

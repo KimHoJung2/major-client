@@ -23,7 +23,12 @@ function* userLoginSaga(
       yield cookieStorage.setCookie(COOKIE_ACCESS_TOKEN, res.access_token, {
         expires: res.expires
       });
-      yield put(Actions.usersLoginAction.success({ user: data.email }));
+      yield put(
+        Actions.usersLoginAction.success({
+          user: data.email,
+          admin: res.usertype
+        })
+      );
     }
   } catch (error) {
     yield put(Actions.usersLoginAction.failure(error));
@@ -47,9 +52,12 @@ function* checkAuthencationSaga() {
       return;
     }
 
+    const user = yield authAPI.getUsersProfile(accessToken);
+
     yield put(
       Actions.checkAuthencationAction.success({
-        isLogin: true
+        isLogin: true,
+        user: user.data
       })
     );
   } catch (error) {

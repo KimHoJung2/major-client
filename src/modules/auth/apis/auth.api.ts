@@ -2,11 +2,7 @@
 import { AxiosError } from 'axios';
 import AxiosInstanceCreator from 'services/api';
 import { cookieStorage, COOKIE_ACCESS_TOKEN } from 'services/cookie';
-import {
-  LoginUser,
-  ResponseTokenInfo,
-  ResponseUserInfo
-} from '../models/auth.model';
+import { LoginUser, ResponseTokenInfo } from '../models/auth.model';
 
 const authInstance = new AxiosInstanceCreator().create();
 
@@ -44,10 +40,10 @@ export const authAPI = {
 
   usersLogout: () => authInstance.post<void>('/users/logout'),
 
-  getUsersProfile: () =>
+  getUsersProfile: (token: string) =>
     authInstance
-      .get<ResponseUserInfo>(`/user/profile`)
-      .then(res => res.data)
+      .get(`/user/profile`, { params: { token: token } })
+      .then(res => res)
       .catch(err => {
         orElseThrow(err);
       })

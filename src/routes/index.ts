@@ -1,4 +1,4 @@
-import MainScoreBoard from 'pages/mainScoreBoard/MainScoreBoard';
+import { MainScoreBoardPage } from 'pages';
 import { ROUTE_MAINSCORE } from './const';
 
 interface RoutesOption {
@@ -9,6 +9,6 @@ interface RoutesOption {
 export const routes: RoutesOption[] = [
   {
     path: ROUTE_MAINSCORE,
-    component: MainScoreBoard
+    component: MainScoreBoardPage
   }
 ];
