@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { List, Card, Button, Row, Modal } from 'antd';
+import { List, Card, Button, Row } from 'antd';
 import styled from 'styled-components';
 import InfiniteScroll from 'react-infinite-scroller';
 import { ResponseBoardList } from 'modules/scoreBoard';
 import { useSelector } from 'react-redux';
 import { StoreState } from 'modules';
+import AttendListModal from 'components/Modal/AttendListModal';
 
 const BoardStyled = styled.div`
   .ant-list {
@@ -26,11 +27,17 @@ interface BoardDataProps {
 
 export const BoardTable = (props: BoardDataProps) => {
   const { boardData, last, getScoreBoard } = props;
-  const admin = useSelector((state: StoreState) => state.authState.admin);
+
   const [visible, setVisible] = useState(false);
-  const handleAttenUserList = (id: string) => {
+
+  const admin = useSelector((state: StoreState) => state.authState.admin);
+
+  const handleOpenModal = () => {
     setVisible(true);
-    console.log(id);
+  };
+
+  const handleCloseModal = () => {
+    setVisible(false);
   };
 
   return (
@@ -77,7 +84,7 @@ export const BoardTable = (props: BoardDataProps) => {
                   <Button
                     type='primary'
                     style={{ margin: 'auto', top: '1em' }}
-                    onClick={() => handleAttenUserList('asdf')}
+                    onClick={() => handleOpenModal()}
                   >
                     참여 리스트
                   </Button>
@@ -87,7 +94,7 @@ export const BoardTable = (props: BoardDataProps) => {
           )}
         />
       </InfiniteScroll>
-      <Modal visible={visible}>asdfsafsa</Modal>
+      <AttendListModal visible={visible} handleCloseModal={handleCloseModal} />
     </BoardStyled>
   );
 };
