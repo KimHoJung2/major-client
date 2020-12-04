@@ -14,13 +14,13 @@ export const usersLoginAction = createAsyncAction(
   USERS_LOGIN_REQUEST,
   USERS_LOGIN_SUCCESS,
   USERS_LOGIN_FAILURE
-)<LoginUser, { user: string; admin: string }, AxiosError>();
+)<LoginUser, { user: ResponseUserInfo; isLogin: boolean }, AxiosError>();
 
 export const checkAuthencationAction = createAsyncAction(
   CHECK_AUTHENCATION_REQUEST,
   CHECK_AUTHENCATION_SUCCESS,
   CHECK_AUTHENCATION_FAILURE
-)<void, { isLogin: boolean; user?: ResponseUserInfo }, AxiosError>();
+)<void, { isLogin: boolean; user: ResponseUserInfo | undefined }, AxiosError>();
 
 const actions = {
   usersLoginAction,

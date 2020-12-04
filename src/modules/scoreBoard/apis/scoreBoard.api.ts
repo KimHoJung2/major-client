@@ -35,5 +35,52 @@ export const scoreBoardAPI = {
     boardInstance
       .get('/scoreBoard?', { params: { skip: skip } })
       .then(res => res.data)
-      .catch(err => orElseThrow(err))
+      .catch(err => orElseThrow(err)),
+
+  getAttendUserList: (boardId: string) =>
+    boardInstance
+      .get('/user/attend', { params: { boardId: boardId } })
+      .then(res => res.data)
+      .catch(err => orElseThrow(err)),
+
+  postAttendUser: (boardId: string, username: string | undefined) =>
+    boardInstance
+      .post('/user/attend', { boardId: boardId, username: username })
+      .then(res => res.data)
+      .catch(err => orElseThrow(err)),
+
+  deleteAttendUser: (boardId: string, usernmae: string | undefined) =>
+    boardInstance
+      .post('/user/attend/delete', { boardId: boardId, username: usernmae })
+      .then(res => res.data)
+      .catch(err => {
+        orElseThrow(err);
+      }),
+
+  createBoard: (data: {
+    key: number;
+    title: string;
+    name: string | undefined;
+    text: string;
+  }) =>
+    boardInstance
+      .post('/scoreBoard', data)
+      .then(res => res.data)
+      .catch(err => {
+        orElseThrow(err);
+      }),
+  updateBoard: (data: { id: string; title: string; text: string }) =>
+    boardInstance
+      .post('/scoreBoard/update', data)
+      .then(res => res.data)
+      .catch(err => {
+        orElseThrow(err);
+      }),
+  getScore: (id: string) =>
+    boardInstance
+      .get('/scoreBoard/score', { params: { id: id } })
+      .then(res => res.data)
+      .catch(err => {
+        orElseThrow(err);
+      })
 };

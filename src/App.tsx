@@ -14,6 +14,7 @@ import { checkAuthencationAction } from 'modules/auth';
 
 const StyledApp = styled.div`
   height: 100vh;
+  background: #5f5f5f;
 `;
 
 const App = () => {
@@ -33,7 +34,12 @@ const App = () => {
         {isLogin &&
           routes.map((item, index) => {
             return (
-              <Route key={index} path={item.path} component={item.component} />
+              <Route
+                key={index}
+                path={item.path}
+                component={item.component}
+                exact
+              />
             );
           })}
         {isLogin === false && <Route path='*' component={NotFoundResult} />}

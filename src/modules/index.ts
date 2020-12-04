@@ -7,8 +7,8 @@ import { History } from 'history';
 import { AuthState, authSaga, authReducer } from './auth';
 import {
   scoreBoardSaga,
-  ScoreBoardState,
-  scoreBoardReducer
+  scoreBoardReducer,
+  ScoreBoardState
 } from './scoreBoard';
 
 export interface StoreState {

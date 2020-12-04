@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback } from 'react';
 import { List, Card, Button, Row } from 'antd';
 import styled from 'styled-components';
 import InfiniteScroll from 'react-infinite-scroller';
-import { ResponseBoardList } from 'modules/scoreBoard';
-import { useSelector } from 'react-redux';
+import {
+  boardStateAction,
+  getAttendUserListAction,
+  ResponseBoardList
+} from 'modules/scoreBoard';
+import { useDispatch, useSelector } from 'react-redux';
 import { StoreState } from 'modules';
-import AttendListModal from 'components/Modal/AttendListModal';
+import { useHistory } from 'react-router';
 
 const BoardStyled = styled.div`
   .ant-list {
@@ -22,29 +26,54 @@ const BoardStyled = styled.div`
 interface BoardDataProps {
   boardData: ResponseBoardList[];
   getScoreBoard: (skip: number) => void;
+  handleOpenModal: (
+    action: Dispatch<SetStateAction<boolean>>,
+    e?: React.MouseEvent<HTMLElement>,
+    id?: string,
+    fc?: (id: string) => void
+  ) => void;
+  setBoardData: (title: string, text: string, id: string) => void | undefined;
+  setVisible: Dispatch<SetStateAction<boolean>>;
+  setBoardVisible: Dispatch<SetStateAction<boolean>>;
+  postAttendUser: (e: React.MouseEvent<HTMLElement>, id: string) => void;
+  deleteAttendUser: (e: React.MouseEvent<HTMLElement>, id: string) => void;
   last: boolean;
 }
 
 export const BoardTable = (props: BoardDataProps) => {
-  const { boardData, last, getScoreBoard } = props;
+  const {
+    boardData,
+    last,
+    getScoreBoard,
+    handleOpenModal,
+    postAttendUser,
+    deleteAttendUser,
+    setVisible,
+    setBoardVisible,
+    setBoardData
+  } = props;
 
-  const [visible, setVisible] = useState(false);
-
-  const admin = useSelector((state: StoreState) => state.authState.admin);
-
-  const handleOpenModal = () => {
-    setVisible(true);
-  };
-
-  const handleCloseModal = () => {
-    setVisible(false);
-  };
-
+  const admin = useSelector((state: StoreState) => state.authState.user);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const getAttendUser = useCallback(
+    (boardId: string) => {
+      dispatch(getAttendUserListAction.request({ boardId: boardId }));
+    },
+    [dispatch]
+  );
   return (
     <BoardStyled>
-      {admin === 'admin' && (
+      {admin?.usertype === 'admin' && (
         <Row style={{ marginTop: '1em' }}>
-          <Button type='primary' style={{ margin: 'auto' }}>
+          <Button
+            type='primary'
+            style={{ margin: 'auto' }}
+            onClick={() => {
+              dispatch(boardStateAction.request({ state: 'create' }));
+              handleOpenModal(setBoardVisible);
+            }}
+          >
             게시글 추가
           </Button>
         </Row>
@@ -70,21 +99,71 @@ export const BoardTable = (props: BoardDataProps) => {
                   textAlign: 'center',
                   padding: 0
                 }}
+                onClick={() => history.push(`/mainscore/detail/${item._id}`)}
               >
                 <Row>
                   <div dangerouslySetInnerHTML={{ __html: item.text }} />
                 </Row>
                 <Row>
-                  <Button type='primary' style={{ margin: 'auto' }}>
+                  <Button
+                    type='primary'
+                    style={{ margin: 'auto', width: '30vw' }}
+                    onClick={e => postAttendUser(e, item._id)}
+                  >
                     참가 신청
-                  </Button>
-                  <Button type='primary' style={{ margin: 'auto' }}>
-                    신청 취소
                   </Button>
                   <Button
                     type='primary'
-                    style={{ margin: 'auto', top: '1em' }}
-                    onClick={() => handleOpenModal()}
+                    style={{ margin: 'auto', width: '30vw' }}
+                    onClick={e => deleteAttendUser(e, item._id)}
+                  >
+                    신청 취소
+                  </Button>
+                </Row>
+                {admin?.usertype === 'admin' && (
+                  <Row>
+                    <Button
+                      type='primary'
+                      style={{
+                        margin: 'auto',
+                        marginTop: '1em',
+                        width: '30vw'
+                      }}
+                    >
+                      집계
+                    </Button>
+                    <Button
+                      type='primary'
+                      style={{
+                        margin: 'auto',
+                        marginTop: '1em',
+                        width: '30vw'
+                      }}
+                      onClick={e => {
+                        e.stopPropagation();
+                        const b = boardData.filter(a => {
+                          return a._id === item._id;
+                        });
+                        dispatch(
+                          boardStateAction.request({
+                            state: 'update'
+                          })
+                        );
+                        setBoardData(b[0].title, b[0].text, b[0]._id);
+                        handleOpenModal(setBoardVisible, e, item._id);
+                      }}
+                    >
+                      수정
+                    </Button>
+                  </Row>
+                )}
+                <Row>
+                  <Button
+                    type='primary'
+                    style={{ margin: 'auto', marginTop: '1em', width: '30vw' }}
+                    onClick={e =>
+                      handleOpenModal(setVisible, e, item._id, getAttendUser)
+                    }
                   >
                     참여 리스트
                   </Button>
@@ -94,7 +173,6 @@ export const BoardTable = (props: BoardDataProps) => {
           )}
         />
       </InfiniteScroll>
-      <AttendListModal visible={visible} handleCloseModal={handleCloseModal} />
     </BoardStyled>
   );
 };

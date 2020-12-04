@@ -9,7 +9,6 @@ import { message } from 'antd';
 import * as Actions from '../actions/auth.action';
 import { authAPI } from '../apis/auth.api';
 import { cookieStorage, COOKIE_ACCESS_TOKEN } from 'services/cookie';
-// import { ResponseUserInfo } from '../models/auth.model';
 
 function* userLoginSaga(
   action: ActionType<typeof Actions.usersLoginAction.request>
@@ -17,16 +16,19 @@ function* userLoginSaga(
   const data = action.payload;
   try {
     const res = yield authAPI.usersLogin(data);
+
     if (res.status) {
       message.error(res.message, 1);
     } else {
       yield cookieStorage.setCookie(COOKIE_ACCESS_TOKEN, res.access_token, {
         expires: res.expires
       });
+
+      const user = yield authAPI.getUsersProfile(res.access_token);
       yield put(
         Actions.usersLoginAction.success({
-          user: data.email,
-          admin: res.usertype
+          isLogin: true,
+          user: user.data
         })
       );
     }
@@ -45,7 +47,8 @@ function* checkAuthencationSaga() {
 
       yield put(
         Actions.checkAuthencationAction.success({
-          isLogin: false
+          isLogin: false,
+          user: undefined
         })
       );
 

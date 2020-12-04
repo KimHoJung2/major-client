@@ -1,7 +1,7 @@
 // base
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
-
+import { ResponseUserInfo } from '../models/auth.model';
 // action
 import {
   AuthAction,
@@ -11,26 +11,33 @@ import {
 
 export interface AuthState {
   isLogin?: boolean;
-  admin: string | undefined;
+  user: ResponseUserInfo | undefined;
 }
 
 // reducers
 const initialState: AuthState = {
   isLogin: undefined,
-  admin: ''
+  user: {
+    email: '',
+    username: '',
+    usertype: '',
+    joinDate: '',
+    mPoint: 0,
+    sex: '',
+    created: undefined
+  }
 };
 
 export const authReducer = createReducer<AuthState, AuthAction>(initialState)
   .handleAction(usersLoginAction.success, (state, action) =>
     produce(state, draft => {
-      console.log(action);
       draft.isLogin = true;
-      draft.admin = action.payload.admin;
+      draft.user = action.payload.user;
     })
   )
   .handleAction(checkAuthencationAction.success, (state, action) =>
     produce(state, draft => {
       draft.isLogin = action.payload.isLogin;
-      draft.admin = action.payload.user?.usertype;
+      draft.user = action.payload.user;
     })
   );

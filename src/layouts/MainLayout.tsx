@@ -2,18 +2,22 @@
 import React, { HTMLAttributes, useState } from 'react';
 
 //package
-import { Col, Row, Drawer, Menu } from 'antd';
+import { Col, Row, Drawer, Menu, Button } from 'antd';
 import { Header } from 'antd/lib/layout/layout';
 import { MenuOutlined, LogoutOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
-
-const { SubMenu } = Menu;
+import { useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const MainStyled = styled.div`
   background: #5f5f5f;
 `;
 
 const HeaderStyled = styled(Header)`
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1;
   background: #001529;
   color: #00bdb7;
 
@@ -21,7 +25,6 @@ const HeaderStyled = styled(Header)`
     #main-title {
       font-size: 2rem;
       font-weight: bold;
-      font-family: monospace;
       text-align: center;
     }
 
@@ -31,6 +34,10 @@ const HeaderStyled = styled(Header)`
       font-size: 1.2rem;
     }
   }
+`;
+
+const ChildrenStyled = styled.div`
+  padding-top: 50px;
 `;
 
 const DrawerStyled = styled(Drawer)`
@@ -47,7 +54,7 @@ type MainLayoutProps = HTMLAttributes<HTMLDivElement>;
 
 const MainLayout = ({ children }: MainLayoutProps) => {
   const [visible, setVisible] = useState(false);
-
+  const location = useLocation();
   const onClose = () => {
     setVisible(false);
   };
@@ -72,7 +79,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
             </Col>
           </Row>
         </HeaderStyled>
-        {children}
+        <ChildrenStyled>{children}</ChildrenStyled>
       </MainStyled>
       <DrawerStyled
         placement='left'
@@ -80,13 +87,28 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         closable={false}
         visible={visible}
       >
-        <Menu mode='inline' theme='dark'>
-          <SubMenu title='정모 게시판'>
-            <Menu.Item>정모점수</Menu.Item>
-            <Menu.Item>참가신청</Menu.Item>
-          </SubMenu>
-          <Menu.Item>회원정보</Menu.Item>
+        <Menu
+          mode='inline'
+          theme='dark'
+          activeKey={location.pathname.split('/')[1]}
+          selectable={true}
+          defaultSelectedKeys={[location.pathname.split('/')[1]]}
+        >
+          <Menu.Item key='mainscore'>
+            <Link to='/mainscore'>정모게시판</Link>
+          </Menu.Item>
+          <Menu.Item key='userinfo'>
+            <Link to='/userinfo'>회원정보</Link>
+          </Menu.Item>
         </Menu>
+
+        <Button
+          type='primary'
+          style={{ width: '100%', marginTop: '20%' }}
+          onClick={onClose}
+        >
+          닫기
+        </Button>
       </DrawerStyled>
     </>
   );

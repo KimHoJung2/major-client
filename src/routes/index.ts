@@ -1,5 +1,13 @@
-import { MainScoreBoardPage } from 'pages';
-import { ROUTE_MAINSCORE } from './const';
+import {
+  MainScoreBoardDetailPage,
+  MainScoreBoardPage,
+  UserInfoPage
+} from 'pages';
+import {
+  ROUTE_MAINSCORE,
+  ROUTE_MAINSCORE_DETAIL,
+  ROUTE_USERINFO
+} from './const';
 
 interface RoutesOption {
   path: string;
@@ -10,5 +18,13 @@ export const routes: RoutesOption[] = [
   {
     path: ROUTE_MAINSCORE,
     component: MainScoreBoardPage
+  },
+  {
+    path: ROUTE_MAINSCORE_DETAIL,
+    component: MainScoreBoardDetailPage
+  },
+  {
+    path: ROUTE_USERINFO,
+    component: UserInfoPage
   }
 ];
