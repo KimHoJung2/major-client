@@ -14,6 +14,7 @@ export interface ResponseUserInfo {
   joinDate?: string;
   mPoint: number;
   sex: string;
+  _id: string;
   created?: Date;
 }
 

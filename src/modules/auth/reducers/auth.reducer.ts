@@ -18,6 +18,7 @@ export interface AuthState {
 const initialState: AuthState = {
   isLogin: undefined,
   user: {
+    _id: '',
     email: '',
     username: '',
     usertype: '',

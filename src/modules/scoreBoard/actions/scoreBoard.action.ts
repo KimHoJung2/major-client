@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 import { ActionType, createAsyncAction } from 'typesafe-actions';
 import {
+  CreateScore,
   ResponseAttendUserList,
   ResponseBoardList,
   ResponseScoreList
@@ -37,6 +38,10 @@ const BOARD_STATE_FAILURE = 'BOARD/BOARD_STATE_FAILURE';
 const GET_SCORE_REQUEST = 'SCORE/GET_SCORE_REQUEST';
 const GET_SCORE_SUCCESS = 'SCORE/GET_SCORE_SUCCESS';
 const GET_SCORE_FAILURE = 'SCORE/GET_SCORE_FAILURE';
+
+const CREATE_SCORE_REQUEST = 'SCORE/CREATE_SCORE_REQUEST';
+const CREATE_SCORE_SUCCESS = 'SCORE/CREATE_SCORE_SUCCESS';
+const CREATE_SCORE_FAILURE = 'SCORE/CREATE_SCORE_FAILURE';
 
 export const getScoreBoardAction = createAsyncAction(
   GET_SCORE_BOARD_REQUEST,
@@ -102,6 +107,12 @@ export const getScoreAction = createAsyncAction(
   GET_SCORE_FAILURE
 )<{ id: string }, ResponseScoreList[], AxiosError>();
 
+export const createScoreAction = createAsyncAction(
+  CREATE_SCORE_REQUEST,
+  CREATE_SCORE_SUCCESS,
+  CREATE_SCORE_FAILURE
+)<CreateScore, '', AxiosError>();
+
 const actions = {
   getScoreBoardAction,
   getAttendUserListAction,
@@ -110,7 +121,8 @@ const actions = {
   createBoardAction,
   updateBoardAction,
   boardStateAction,
-  getScoreAction
+  getScoreAction,
+  createScoreAction
 };
 
 export type ScoreBoardAction = ActionType<typeof actions>;

@@ -44,3 +44,15 @@ export interface ResponseAttendUserList {
   username: string;
   boardId: string;
 }
+
+export interface CreateScore {
+  username: string;
+  userId: string;
+  boardId: string;
+  score: {
+    firstGame?: string;
+    secnedGame?: string;
+    thirdGame?: string;
+    fourGame?: string;
+  };
+}
