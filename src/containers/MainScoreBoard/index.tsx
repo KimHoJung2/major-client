@@ -62,7 +62,6 @@ const MainScoreBoard = () => {
   };
 
   const postAttendUser = (e: React.MouseEvent<HTMLElement>, id: string) => {
-    const a = 'asf';
     e.stopPropagation();
     dispatch(
       postAttendUserAction.request({ boardId: id, username: user?.username })
